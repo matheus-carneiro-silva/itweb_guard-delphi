@@ -30,6 +30,7 @@ type
     Image1: TImage;
     lblTitulo: TLabel;
     Image2: TImage;
+    Send1: TMenuItem;
     procedure tmrPrincipalTimer(Sender: TObject);
     procedure tmrMouseTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -38,6 +39,7 @@ type
     procedure tmrSegundoTimer(Sender: TObject);
     procedure TrayIcon1DblClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure Send1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -56,11 +58,41 @@ var
   mouse: boolean;
   MouseHookHandle: HHOOK;
   KeyHookHandle: HHOOK;
-  tempoRestante: TTime;
+  tempoDecorrido: TTime;
+
 implementation
 
 {$R *.dfm}
 
+procedure sendData;
+var
+  str: string;
+begin
+  if mouse and software then
+  begin
+    str := 'sender.exe send -a true -t "' + TimeToStr(tempoDecorrido) + '"';
+    ShowMessage(str);
+  end
+  else
+  begin
+    str := 'sender.exe send -a false -t "' + TimeToStr(tempoDecorrido) + '"';
+  end;
+
+  WinExec(PAnsiChar(str), SW_SHOWNORMAL);
+
+end;
+
+procedure setMouse(state: boolean);
+begin
+  mouse := state;
+  sendData;
+end;
+
+procedure setSoftware(state: boolean);
+begin
+  software := state;
+  sendData;
+end;
 
 function ArrayToString(const a: array of Char): string;
 begin
@@ -86,7 +118,8 @@ begin
     texto := ArrayToString(caption);
     if texto.Contains('Photoshop.exe') or texto.Contains('AfterFX.exe') or
       texto.Contains('Adobe Premiere Pro.exe') then
-      software := true;
+      if not software then
+        setSoftware(true);
   end;
 
   Result := true;
@@ -97,7 +130,8 @@ function KeyHookProc(nCode: Integer; wParam: wParam; lParam: lParam)
 begin
   if (nCode >= 0) and (wParam = WM_KEYDOWN) then
   begin
-    mouse := true;
+    if not mouse then
+      setMouse(true);
     RestartTimer(frmPrincipal.tmrMouse);
   end;
   Result := CallNextHookEx(KeyHookHandle, nCode, wParam, lParam);
@@ -125,7 +159,8 @@ begin
   if (nCode >= 0) and (wParam = WM_MOUSEMOVE) then
   begin
     CursorPos := PMouseHookStruct(lParam)^.pt;
-    mouse := true;
+    if not mouse then
+      setMouse(true);
     RestartTimer(frmPrincipal.tmrMouse);
   end;
   Result := CallNextHookEx(MouseHookHandle, nCode, wParam, lParam);
@@ -150,7 +185,6 @@ begin
   Application.Terminate;
 end;
 
-
 procedure TfrmPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   Action := caNone;
@@ -159,20 +193,27 @@ end;
 
 procedure TfrmPrincipal.FormCreate(Sender: TObject);
 begin
-  mouse := true;
+  setMouse(true);
   InstallMouseHook;
   InstallKeyHook;
 
-  SetWindowLong(Application.Handle, GWL_EXSTYLE,GetWindowLong(Application.Handle, GWL_EXSTYLE) or
-WS_EX_TOOLWINDOW and not WS_EX_APPWINDOW);
+  SetWindowLong(Application.Handle, GWL_EXSTYLE,
+    GetWindowLong(Application.Handle, GWL_EXSTYLE) or WS_EX_TOOLWINDOW and
+    not WS_EX_APPWINDOW);
 
-  tempoRestante := StrToTime('08:00:00');
+  tempoDecorrido := StrToTime('00:00:00');
 end;
 
 procedure TfrmPrincipal.FormDestroy(Sender: TObject);
 begin
+  sendData;
   UninstallMouseHook;
   UninstallKeyHook;
+end;
+
+procedure TfrmPrincipal.Send1Click(Sender: TObject);
+begin
+  sendData;
 end;
 
 procedure TfrmPrincipal.tmrSegundoTimer(Sender: TObject);
@@ -180,9 +221,9 @@ const
   segundo = '00:00:01';
 begin
   if mouse and software then
-    tempoRestante := tempoRestante - StrToTime(segundo);
+    tempoDecorrido := tempoDecorrido + StrToTime(segundo);
 
-  lblTempo.Caption := TimeToStr(tempoRestante);
+  lblTempo.caption := TimeToStr(tempoDecorrido);
 end;
 
 procedure TfrmPrincipal.TrayIcon1DblClick(Sender: TObject);
@@ -192,12 +233,15 @@ end;
 
 procedure TfrmPrincipal.tmrMouseTimer(Sender: TObject);
 begin
-  mouse := false;
+  if mouse then
+    setMouse(false);
 end;
 
 procedure TfrmPrincipal.tmrPrincipalTimer(Sender: TObject);
 begin
-  software := false;
+  if software then
+    setSoftware(false);
+
   EnumWindows(@EnumWindowsFunc, 0);
   if software then
     lblSoftware.caption := 'Sim'

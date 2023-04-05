@@ -3,7 +3,7 @@ object frmPrincipal: TfrmPrincipal
   Top = 0
   BorderStyle = bsToolWindow
   Caption = 'Itweb Guard'
-  ClientHeight = 121
+  ClientHeight = 150
   ClientWidth = 380
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -3134,7 +3134,7 @@ object frmPrincipal: TfrmPrincipal
   OnDestroy = FormDestroy
   DesignSize = (
     380
-    121)
+    150)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
@@ -3324,7 +3324,7 @@ object frmPrincipal: TfrmPrincipal
     Left = 122
     Top = 48
     Width = 133
-    Height = 25
+    Height = 54
     Alignment = taCenter
     Anchors = [akLeft, akTop, akRight, akBottom]
     Caption = 'Itweb Guard'
@@ -3334,6 +3334,7 @@ object frmPrincipal: TfrmPrincipal
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
     ParentFont = False
+    ExplicitHeight = 25
   end
   object Image2: TImage
     Left = 267
@@ -7153,6 +7154,10 @@ object frmPrincipal: TfrmPrincipal
     object Fechar1: TMenuItem
       Caption = 'Fechar'
       OnClick = Fechar1Click
+    end
+    object Send1: TMenuItem
+      Caption = 'Send'
+      OnClick = Send1Click
     end
   end
   object tmrSegundo: TTimer
