@@ -3,7 +3,7 @@ object frmPrincipal: TfrmPrincipal
   Top = 0
   BorderStyle = bsToolWindow
   Caption = 'Itweb Guard'
-  ClientHeight = 150
+  ClientHeight = 112
   ClientWidth = 380
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,6 +11,7 @@ object frmPrincipal: TfrmPrincipal
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  FormStyle = fsStayOnTop
   Icon.Data = {
     000001000500101000000100200068040000560000002020000001002000A810
     0000BE0400003030000001002000A82500006615000040400000010020002842
@@ -3134,12 +3135,12 @@ object frmPrincipal: TfrmPrincipal
   OnDestroy = FormDestroy
   DesignSize = (
     380
-    150)
+    112)
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
     Left = 8
-    Top = 91
+    Top = 115
     Width = 48
     Height = 13
     Caption = 'Software:'
@@ -3147,7 +3148,7 @@ object frmPrincipal: TfrmPrincipal
   end
   object lblSoftware: TLabel
     Left = 62
-    Top = 91
+    Top = 115
     Width = 57
     Height = 13
     Caption = 'Carregando'
@@ -3155,7 +3156,7 @@ object frmPrincipal: TfrmPrincipal
   end
   object Label2: TLabel
     Left = 143
-    Top = 91
+    Top = 115
     Width = 49
     Height = 13
     Caption = 'Atividade:'
@@ -3163,7 +3164,7 @@ object frmPrincipal: TfrmPrincipal
   end
   object lblMouse: TLabel
     Left = 198
-    Top = 91
+    Top = 115
     Width = 57
     Height = 13
     Caption = 'Carregando'
@@ -3171,7 +3172,7 @@ object frmPrincipal: TfrmPrincipal
   end
   object lblTempo: TLabel
     Left = 275
-    Top = 91
+    Top = 115
     Width = 44
     Height = 13
     Caption = '00:00:00'
@@ -3321,12 +3322,12 @@ object frmPrincipal: TfrmPrincipal
     Transparent = True
   end
   object lblTitulo: TLabel
-    Left = 122
+    Left = 125
     Top = 48
     Width = 133
-    Height = 54
+    Height = 33
     Alignment = taCenter
-    Anchors = [akLeft, akTop, akRight, akBottom]
+    Anchors = [akLeft, akTop, akRight]
     Caption = 'Itweb Guard'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -3334,7 +3335,6 @@ object frmPrincipal: TfrmPrincipal
     Font.Name = 'Tahoma'
     Font.Style = [fsBold]
     ParentFont = False
-    ExplicitHeight = 25
   end
   object Image2: TImage
     Left = 267
@@ -4016,14 +4016,14 @@ object frmPrincipal: TfrmPrincipal
   object tmrPrincipal: TTimer
     Interval = 5000
     OnTimer = tmrPrincipalTimer
-    Left = 32
-    Top = 112
+    Left = 56
+    Top = 8
   end
   object tmrMouse: TTimer
     Interval = 300000
     OnTimer = tmrMouseTimer
-    Left = 144
-    Top = 112
+    Left = 168
+    Top = 8
   end
   object TrayIcon1: TTrayIcon
     Icon.Data = {
@@ -7145,24 +7145,20 @@ object frmPrincipal: TfrmPrincipal
     PopupMenu = PopupMenu1
     Visible = True
     OnDblClick = TrayIcon1DblClick
-    Left = 200
-    Top = 112
+    Left = 224
+    Top = 8
   end
   object PopupMenu1: TPopupMenu
-    Left = 256
-    Top = 112
+    Left = 280
+    Top = 8
     object Fechar1: TMenuItem
       Caption = 'Fechar'
       OnClick = Fechar1Click
     end
-    object Send1: TMenuItem
-      Caption = 'Send'
-      OnClick = Send1Click
-    end
   end
   object tmrSegundo: TTimer
     OnTimer = tmrSegundoTimer
-    Left = 88
-    Top = 112
+    Left = 112
+    Top = 8
   end
 end

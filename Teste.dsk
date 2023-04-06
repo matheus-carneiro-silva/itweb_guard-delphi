@@ -1,6 +1,7 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'D:\Delphi\Projeto teste\untIP.pas',0,1,1,29,100,0,0,,
-File_1=TSourceModule,'D:\Delphi\UnitAnselmo.pas',0,1,1,101,30,0,0,,
+File_0=TSourceModule,'c:\program files (x86)\embarcadero\studio\21.0\source\rtl\win\Winapi.Windows.pas',0,1,29646,42,29667,0,0,,
+File_1=TSourceModule,'D:\Delphi\Projeto teste\untIP.pas',0,1,1,29,100,0,0,,
+File_2=TSourceModule,'D:\Delphi\UnitAnselmo.pas',0,1,1,101,30,0,0,,
 
 [Modules]
 Module0=D:\Delphi\Projeto teste\untPrincipal.pas
@@ -46,13 +47,13 @@ BottomMiddelPanelData=0000080001020200000009000000446F636B5369746530100000004772
 [View0]
 CustomEditViewType=TEditView
 Module=D:\Delphi\Projeto teste\untPrincipal.pas
-CursorX=23
-CursorY=78
-TopLine=51
+CursorX=8
+CursorY=137
+TopLine=1
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=D:\Delphi\Projeto teste\untPrincipal.pas
+EditViewName=Borland.FormDesignerView
 
 [Watches]
 Count=0
@@ -198,8 +199,8 @@ SplitPos=111
 
 [PropInspDesignerSelection]
 ArrangeBy=Name
-SelectedItem=Alignment,Images
-ExpandedItems="LiveBindings Designer=0",MenuAnimation=0
+SelectedItem=Anchors,
+ExpandedItems=Anchors=0,Constraints=0,Font=0,"LiveBindings Designer=0",Margins=0,StyleElements=0,LiveBindings=0,Touch=0,BorderIcons=0
 
 [frmDesignPreview]
 PercentageSizes=1

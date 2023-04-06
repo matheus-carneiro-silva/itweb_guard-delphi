@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Menus,
-  Vcl.Imaging.pngimage;
+  Vcl.Imaging.pngimage, ShellAPI;
 
 type
   TMouseHookProc = function(nCode: Integer; wParam: wParam; lParam: lParam)
@@ -30,7 +30,6 @@ type
     Image1: TImage;
     lblTitulo: TLabel;
     Image2: TImage;
-    Send1: TMenuItem;
     procedure tmrPrincipalTimer(Sender: TObject);
     procedure tmrMouseTimer(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -39,7 +38,6 @@ type
     procedure tmrSegundoTimer(Sender: TObject);
     procedure TrayIcon1DblClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure Send1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -64,34 +62,32 @@ implementation
 
 {$R *.dfm}
 
-procedure sendData;
+procedure sendData();
 var
   str: string;
+  comando: Array [0 .. 1024] of Char;
+  argumentos: Array [0 .. 1024] of Char;
 begin
+  StrPCopy(comando, 'sender.exe');
   if mouse and software then
-  begin
-    str := 'sender.exe send -a true -t "' + TimeToStr(tempoDecorrido) + '"';
-    ShowMessage(str);
-  end
+    str := 'send -a true -t "' + TimeToStr(tempoDecorrido) + '"'
   else
-  begin
-    str := 'sender.exe send -a false -t "' + TimeToStr(tempoDecorrido) + '"';
-  end;
+    str := 'send -a false -t "' + TimeToStr(tempoDecorrido) + '"';
 
-  WinExec(PAnsiChar(str), SW_SHOWNORMAL);
-
+  StrPCopy(argumentos, str);
+  ShellExecute(0, nil, comando, argumentos, nil, SW_HIDE);
 end;
 
 procedure setMouse(state: boolean);
 begin
   mouse := state;
-  sendData;
+  sendData();
 end;
 
 procedure setSoftware(state: boolean);
 begin
   software := state;
-  sendData;
+  sendData();
 end;
 
 function ArrayToString(const a: array of Char): string;
@@ -108,7 +104,7 @@ begin
   Timer.Enabled := true;
 end;
 
-function EnumWindowsFunc(Handle: THandle): boolean; stdcall;
+function EnumWindowsFunc(Handle: THandle; var achou: boolean): boolean; stdcall;
 var
   caption: array [0 .. 256] of Char;
   texto: string;
@@ -118,11 +114,30 @@ begin
     texto := ArrayToString(caption);
     if texto.Contains('Photoshop.exe') or texto.Contains('AfterFX.exe') or
       texto.Contains('Adobe Premiere Pro.exe') then
-      if not software then
-        setSoftware(true);
+      achou := true;
   end;
 
   Result := true;
+end;
+
+procedure checkWindows();
+var
+  achou: boolean;
+begin
+  achou := false;
+
+  EnumWindows(@EnumWindowsFunc, LParam(@achou));
+
+  if achou then
+  begin
+    if not software then
+      setSoftware(true);
+  end
+  else
+  begin
+    if software then
+      setSoftware(false);
+  end;
 end;
 
 function KeyHookProc(nCode: Integer; wParam: wParam; lParam: lParam)
@@ -194,6 +209,7 @@ end;
 procedure TfrmPrincipal.FormCreate(Sender: TObject);
 begin
   setMouse(true);
+  setSoftware(false);
   InstallMouseHook;
   InstallKeyHook;
 
@@ -206,14 +222,9 @@ end;
 
 procedure TfrmPrincipal.FormDestroy(Sender: TObject);
 begin
-  sendData;
+  sendData();
   UninstallMouseHook;
   UninstallKeyHook;
-end;
-
-procedure TfrmPrincipal.Send1Click(Sender: TObject);
-begin
-  sendData;
 end;
 
 procedure TfrmPrincipal.tmrSegundoTimer(Sender: TObject);
@@ -238,11 +249,11 @@ begin
 end;
 
 procedure TfrmPrincipal.tmrPrincipalTimer(Sender: TObject);
+var
+  res: boolean;
 begin
-  if software then
-    setSoftware(false);
+  checkWindows();
 
-  EnumWindows(@EnumWindowsFunc, 0);
   if software then
     lblSoftware.caption := 'Sim'
   else
