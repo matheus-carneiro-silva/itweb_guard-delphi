@@ -53,7 +53,7 @@ TopLine=1
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=D:\Delphi\Projeto teste\untPrincipal.pas
+EditViewName=Borland.FormDesignerView
 
 [Watches]
 Count=0
@@ -196,6 +196,11 @@ LRDockWidth=1896
 Dockable=1
 StayOnTop=0
 SplitPos=111
+
+[PropInspDesignerSelection]
+ArrangeBy=Name
+SelectedItem=Anchors,
+ExpandedItems=Anchors=0,Constraints=0,Font=0,"LiveBindings Designer=0",Margins=0,StyleElements=0,LiveBindings=0,Touch=0,BorderIcons=0
 
 [frmDesignPreview]
 PercentageSizes=1

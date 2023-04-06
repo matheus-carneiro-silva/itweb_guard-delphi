@@ -62,17 +62,15 @@ implementation
 
 {$R *.dfm}
 
-procedure sendData();
+procedure sendData(ativo: boolean);
 var
   str: string;
   comando: Array [0 .. 1024] of Char;
   argumentos: Array [0 .. 1024] of Char;
 begin
   StrPCopy(comando, 'sender.exe');
-  if mouse and software then
-    str := 'send -a true -t "' + TimeToStr(tempoDecorrido) + '"'
-  else
-    str := 'send -a false -t "' + TimeToStr(tempoDecorrido) + '"';
+
+  str := 'send -a' + LowerCase(BoolToStr(ativo, true)) + ' -t "' + TimeToStr(tempoDecorrido) + '"';
 
   StrPCopy(argumentos, str);
   ShellExecute(0, nil, comando, argumentos, nil, SW_HIDE);
@@ -81,13 +79,13 @@ end;
 procedure setMouse(state: boolean);
 begin
   mouse := state;
-  sendData();
+  sendData(mouse and software);
 end;
 
 procedure setSoftware(state: boolean);
 begin
   software := state;
-  sendData();
+  sendData(mouse and software);
 end;
 
 function ArrayToString(const a: array of Char): string;
@@ -222,7 +220,7 @@ end;
 
 procedure TfrmPrincipal.FormDestroy(Sender: TObject);
 begin
-  sendData();
+  sendData(false);
   UninstallMouseHook;
   UninstallKeyHook;
 end;

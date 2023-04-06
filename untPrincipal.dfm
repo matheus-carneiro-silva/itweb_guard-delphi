@@ -3325,7 +3325,7 @@ object frmPrincipal: TfrmPrincipal
     Left = 125
     Top = 48
     Width = 133
-    Height = 33
+    Height = 25
     Alignment = taCenter
     Anchors = [akLeft, akTop, akRight]
     Caption = 'Itweb Guard'
