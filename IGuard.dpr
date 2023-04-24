@@ -1,4 +1,4 @@
-program Teste;
+program IGuard;
 
 uses
   Vcl.Forms,
@@ -11,9 +11,9 @@ uses
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
-  Application.Title := 'Itweb Guard';
+  Application.Title := 'IGuard';
   TStyleManager.TrySetStyle('Windows10');
-    Application.Showmainform := False;
+  Application.Showmainform := False;
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.Run;
 end.

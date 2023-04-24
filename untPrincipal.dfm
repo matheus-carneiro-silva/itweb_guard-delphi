@@ -2,7 +2,7 @@ object frmPrincipal: TfrmPrincipal
   Left = 0
   Top = 0
   BorderStyle = bsToolWindow
-  Caption = 'Itweb Guard'
+  Caption = 'IGuard.exe'
   ClientHeight = 112
   ClientWidth = 380
   Color = clBtnFace
