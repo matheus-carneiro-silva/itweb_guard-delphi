@@ -1,3 +1,4 @@
+pascal
 unit untPrincipal;
 
 interface
@@ -113,10 +114,10 @@ begin
     GetWindowLong(Application.Handle, GWL_EXSTYLE) or WS_EX_TOOLWINDOW and
     not WS_EX_APPWINDOW);
 
-  MonitoredApplications := untConfig.read_config_file();
+  MonitoredApplications := untConfig.TConfig.read_config_file();
   var listApi : TStringDynArray;
-  listApi := untConfig.read_applications_from_api();
-  untConfig.write_applications_to_api(listApi);
+  listApi := untConfig.TConfig.read_applications_from_api();
+  untConfig.TConfig.write_applications_to_api(listApi);
 
   tempoDecorrido := StrToTime('00:00:00');
 end;

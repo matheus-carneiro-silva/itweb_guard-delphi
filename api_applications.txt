@@ -1,0 +1,11 @@
+## Web Browsers
+
+chrome.exe;
+
+## Office Applications
+
+excel.exe;
+
+## Text Editors
+
+notepad.exe;
